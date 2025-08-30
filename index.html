@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio | STEM Innovation Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #fafafa;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Particles */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header with Physics Animation */
+        .header {
+            text-align: center;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 1px solid rgba(52, 152, 219, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(52, 152, 219, 0.03), transparent);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Science-themed Navigation */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 2px solid #ecf0f1;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1em;
+            font-weight: 500;
+            color: #34495e;
+            position: relative;
+            overflow: hidden;
+            min-width: 160px;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .nav-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(52, 152, 219, 0.05);
+            position: relative;
+        }
+
+        .section.active {
+            display: block;
+            animation: slideIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #3498db, transparent);
+            margin-left: 2rem;
+        }
+
+        /* Engineering Grid Layout */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) rotateY(2deg);
+            box-shadow: 0 25px 80px rgba(52, 152, 219, 0.15);
+            border-color: #3498db;
+        }
+
+        .project-card h3 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .project-emoji {
+            font-size: 2em;
+            margin-right: 0.5rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Technical Specifications Style */
+        .tech-specs {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tech-badge {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        /* Physics Formula Style */
+        .formula-display {
+            background: #f8f9fa;
+            border: 2px dashed #bdc3c7;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2em;
+            position: relative;
+        }
+
+        .formula-display::before {
+            content: '⚡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: white;
+            padding: 0 10px;
+            font-size: 1.5em;
+        }
+
+        /* Awards with Medal Animation */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .award-card {
+            background: white;
+            border: 2px solid #f1c40f;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .award-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(241, 196, 15, 0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        .award-card:hover {
+            transform: scale(1.03) rotateX(5deg);
+            box-shadow: 0 20px 60px rgba(241, 196, 15, 0.2);
+        }
+
+        .medal-icon {
+            font-size: 3em;
+            display: block;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: swing 2s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        /* Scientific Data Visualization */
+        .data-viz {
+            background: #ecf0f1;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #bdc3c7;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            animation: scan 3s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Interactive Elements */
+        .interactive-demo {
+            background: #ecf0f1;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .demo-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Circuit Board Pattern */
+        .circuit-pattern {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(90deg, #3498db 1px, transparent 1px),
+                linear-gradient(0deg, #3498db 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Laboratory-style Content */
+        .lab-section {
+            background: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .lab-section::before {
+            content: '🔬 LABORATORY';
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #f8f9fa;
+            padding: 0 15px;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: #7f8c8d;
+            letter-spacing: 2px;
+        }
+
+        /* Engineering Blueprint Style */
+        .blueprint {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            position: relative;
+            font-family: 'Courier New', monospace;
+        }
+
+        .blueprint::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            border: 2px solid #3498db;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .blueprint::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #3498db;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        /* Contact Section with Molecular Structure */
+        .contact-section {
+            background: linear-gradient(135deg, #f8f9fa, #ecf0f1);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .molecule {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #3498db;
+            border-radius: 50%;
+            animation: molecular-motion 10s linear infinite;
+        }
+
+        @keyframes molecular-motion {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, -50px) rotate(90deg); }
+            50% { transform: translate(50px, -100px) rotate(180deg); }
+            75% { transform: translate(-50px, -50px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .project-grid, .awards-grid { grid-template-columns: 1fr; }
+            .navigation { gap: 0.5rem; }
+            .nav-btn { padding: 0.8rem 1.5rem; min-width: 140px; }
+            .section { padding: 2rem 1.5rem; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #2980b9, #21618c);
+        }
+
+        /* Link Styles */
+        .project-link, .award-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #27ae60, #229954);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-link:hover, .award-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+        }
+
+        .intro-highlight {
+            background: linear-gradient(120deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            margin: 2rem 0;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="circuit-pattern"></div>
+            <h1>STEM Innovation Portfolio</h1>
+            <p class="subtitle">Engineering • Physics • Mathematics • Research</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <button class="nav-btn active" onclick="showSection('home')">🏠 Home</button>
+            <button class="nav-btn" onclick="showSection('projects')">⚗️ Research & Projects</button>
+            <button class="nav-btn" onclick="showSection('awards')">🏆 Achievements</button>
+            <button class="nav-btn" onclick="showSection('contact')">📡 Contact</button>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <h2>🧬 About Me</h2>
+            
+            <div class="intro-highlight">
+                <p><strong>Welcome to my scientific journey!</strong></p>
+                <p>I am a passionate STEM student currently pursuing advanced studies at [Your School Name]. My fascination with the intersection of mathematics, physics, and engineering drives me to explore innovative solutions to real-world challenges. Through rigorous research methodology and hands-on experimentation, I strive to contribute meaningful insights to the scientific community.</p>
+                
+                <p>My academic pursuits span multiple disciplines, from quantum mechanics simulations to data-driven environmental analysis. I believe that the future of science lies in interdisciplinary collaboration, where physics principles meet computational power to solve humanity's greatest challenges.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Research Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Publications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Awards Won</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Patent Applications</div>
+                </div>
+            </div>
+
+            <div class="lab-section">
+                <h3>🔭 Research Interests & Target Fields</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin: 1rem 0;"><strong>🌊 Fluid Dynamics:</strong> Computational modeling of turbulent flows</li>
+                    <li style="margin: 1rem 0;"><strong>⚛️ Quantum Physics:</strong> Quantum computing applications in cryptography</li>
+                    <li style="margin: 1rem 0;"><strong>🔋 Materials Science:</strong> Nanomaterial properties for energy storage</li>
+                    <li style="margin: 1rem 0;"><strong>🌱 Environmental Engineering:</strong> Sustainable technology development</li>
+                </ul>
+                <p style="margin-top: 2rem;"><strong>Target Universities:</strong> MIT, Stanford, Caltech, ETH Zurich - focusing on Engineering Physics, Applied Mathematics, or Materials Science programs.</p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <h2>⚗️ Research & Engineering Projects</h2>
+            
+            <div class="project-grid">
+                <!-- Science Fair Research -->
+                <div class="project-card">
+                    <h3><span class="project-emoji">🧪</span>Advanced Materials Research</h3>
+                    <p><strong>Title:</strong> "Optimization of Graphene-Enhanced Polymer Composites for Thermal Management Applications"</p>
+                    
+                    <div class="tech-specs">
+                        <strong>EXPERIMENTAL PARAMETERS:</strong><br>
+                        • Sample Size: 200+ specimens<br>
+                        • Temperature Range: -40°C to 200°C<br>
+                        • Measurement Precision: ±0.1% accuracy<br>
+                        • Data Points Collected: 50,000+
+                    </div>
+
+                    <div class="formula-display">
+                        k<sub>composite</sub> = f(φ<sub>graphene</sub>, T, σ<sub>mechanical</sub>)
+                    </div>
+
+                    <p>This research investigated the thermal conductivity enhancement of polymer matrices through strategic graphene incorporation. Using advanced characterization techniques including SEM, TGA, and thermal conductivity measurements, we achieved a 340% improvement in thermal performance while maintaining mechanical integrity.</p>
+
+                    <div class="tech-grid">
+                        <span class="tech-badge">Materials Science</span>
+                        <span class="tech-badge">Thermal Analysis</span>
+                        <span class="tech-badge">Statistical Modeling</span>
+                        <span class="tech-badge">Python Analysis</span>
+                    </div>
+
+                    <div style="margin-top: 1.5rem;">
+                        <a href="#" class="project-link">📄 Full Research Paper</a>
+                        <a href="#" class="project-link">📊 Data Supplement</a>
+                        <a href="#" class="project-link">🎯 English Abstract</a>
+                    </div>
+                </div>
+
+                <!-- Physics Simulation -->
+                <div class="project-card">
+                    <h3><span class="project-emoji">⚡</span>Electromagnetic Field Simulation</h3>
+                    <p>Developed a comprehensive 3D electromagnetic field visualization tool using finite element analysis to model complex field interactions in engineered systems.</p>
+                    
+                    <div class="interactive-demo">
+                        <h4>🔄 Interactive Physics Demo</h4>
+                        <button class="demo-button" onclick="triggerWave()">Generate EM Wave</button>
+                        <button class="demo-button" onclick="toggleField()">Toggle Field Lines</button>
+                        <div class="chart-placeholder" id="physics-demo">
+                            <div style="color: #7f8c8d;">⚡ Electromagnetic Field Visualization ⚡</div>
+                        </div>
+                    </div>
+
+                    <div class="tech-grid">
+                        <span class="tech-badge">MATLAB</span>
+                        <span class="tech-badge">Finite Element</span>
+                        <span class="tech-badge">Vector Calculus</span>
+                        <span class="tech-badge">3D Modeling</span>
+                    </div>
+
+                    <a href="#" class="project-link">🎬 Simulation Demo Video</a>
+                    <a href="#" class="project-link">💻 Source Code</a>
+                </div>
+
+                <!-- Engineering Design -->
+                <div class="project-card">
+                    <h3><span class="project-emoji">🔧</span>Autonomous Robotics System</h3>
+                    <p>Designed and built an autonomous navigation robot using computer vision, sensor fusion, and machine learning algorithms for obstacle avoidance and path optimization.</p>
+
+                    <div class="blueprint">
+                        <h4>📐 ENGINEERING SPECIFICATIONS</h4>
+                        <p>Payload Capacity: 5.2 kg | Navigation Accuracy: ±2cm</p>
+                        <p>Sensor Array: LIDAR + IMU + Stereo Vision</p>
+                        <p>Processing Unit: NVIDIA Jetson Xavier NX</p>
+                        <p>Battery Life: 4.5 hours continuous operation</p>
+                    </div>
+
+                    <div class="tech-grid">
+                        <span class="tech-badge">Robotics</span>
+                        <span class="tech-badge">Computer Vision</span>
+                        <span class="tech-badge">Arduino</span>
+                        <span class="tech-badge">ROS</span>
+                        <span class="tech-badge">C++</span>
+                    </div>
+
+                    <a href="#" class="project-link">🎥 Robot Demo Video</a>
+                    <a href="#" class="project-link">📋 Technical Documentation</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Awards Section -->
+        <section id="awards" class="section">
+            <h2>🏆 Scientific Achievements & Recognition</h2>
+            
+            <div class="awards-grid">
+                <div class="award-card">
+                    <div class="medal-icon">🥇</div>
+                    <h3>ARML International Mathematics League</h3>
+                    <p><strong>Achievement:</strong> Team Taiwan Representative, Top 15% Globally</p>
+                    <p><strong>Year:</strong> 2024</p>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <div style="height: 120px; background: white; border: 2px dashed #bdc3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                            🏅 Certificate Image Placeholder
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: #5d6d7e;"><strong>English Description:</strong> Represented Taiwan in the prestigious American Regions Mathematics League, competing against top students from across North America. Demonstrated exceptional mathematical reasoning and collaborative problem-solving skills in advanced topics including number theory, combinatorics, and mathematical modeling.</p>
+                </div>
+
+                <div class="award-card">
+                    <div class="medal-icon">🏆</div>
+                    <h3>AME Distinguished Performance Award</h3>
+                    <p><strong>Achievement:</strong> Top 5% in American Mathematics Examinations</p>
+                    <p><strong>Year:</strong> 2024</p>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <div style="height: 120px; background: white; border: 2px dashed #bdc3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                            🏅 AME Certificate Placeholder
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: #5d6d7e;"><strong>English Description:</strong> Achieved distinguished performance in the American Mathematics Examinations, placing in the top 5% nationally. This recognition highlights advanced proficiency in mathematical concepts including calculus, linear algebra, and mathematical proof techniques essential for STEM research.</p>
+                </div>
+
+                <div class="award-card">
+                    <div class="medal-icon">🧪</div>
+                    <h3>Taiwan National Science Fair</h3>
+                    <p><strong>Achievement:</strong> First Place - Physics Division</p>
+                    <p><strong>Year:</strong> 2024</p>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <div style="height: 120px; background: white; border: 2px dashed #bdc3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                            🏅 Science Fair Certificate
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: #5d6d7e;"><strong>English Description:</strong> First place winner in the Taiwan National Senior High School Science Fair, Physics Division. The winning project focused on novel applications of electromagnetic principles in renewable energy systems, demonstrating both theoretical understanding and practical engineering skills.</p>
+                </div>
+
+                <div class="award-card">
+                    <div class="medal-icon">🚀</div>
+                    <h3>International Physics Olympiad Qualifier</h3>
+                    <p><strong>Achievement:</strong> National Team Selection</p>
+                    <p><strong>Year:</strong> 2024</p>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <div style="height: 120px; background: white; border: 2px dashed #bdc3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                            🏅 Physics Olympiad Certificate
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: #5d6d7e;"><strong>English Description:</strong> Selected for the Taiwan national team preparation program for the International Physics Olympiad. This achievement represents mastery of advanced physics concepts including quantum mechanics, thermodynamics, and electromagnetic theory at the highest high school level.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2>📡 Professional Contact & Documentation</h2>
+            
+            <div class="contact-section">
+                <!-- Molecular animation elements -->
+                <div class="molecule" style="top: 20%; left: 10%;"></div>
+                <div class="molecule" style="top: 60%; right: 15%; animation-delay: 2s;"></div>
+                <div class="molecule" style="bottom: 30%; left: 20%; animation-delay: 4s;"></div>
+                <div class="molecule" style="top: 40%; right: 30%; animation-delay: 6s;"></div>
+
+                <h3>📋 Academic Curriculum Vitae</h3>
+                <p>Comprehensive documentation of my academic achievements, research experience, and technical competencies formatted for university admissions and research opportunities.</p>
+                
+                <div style="margin: 2rem 0;">
+                    <a href="#" class="project-link" style="background: linear-gradient(45deg, #8e44ad, #9b59b6);">📄 Download Full CV (PDF)</a>
+                    <a href="#" class="project-link" style="background: linear-gradient(45deg, #e67e22, #d35400);">📊 Research Portfolio (PDF)</a>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 2px solid #ecf0f1;">
+                    <h4>📞 Contact Information</h4>
+                    <div style="margin: 1.5rem 0; line-height: 2;">
+                        <p><strong>📧 Email:</strong> your.email@example.com</p>
+                        <p><strong>🔗 LinkedIn:</strong> linkedin.com/in/yourprofile</p>
+                        <p><strong>💻 GitHub:</strong> github.com/yourusername</p>
+                        <p><strong>📍 Location:</strong> Taiwan</p>
+                        <p><strong>🎓 Status:</strong> High School Senior, Class of 2025</p>
+                    </div>
+                </div>
+
+                <div class="data-viz">
+                    <h4>📈 Academic Performance Metrics</h4>
+                    <div class="chart-placeholder">
+                        📊 GPA Trends | Research Output | Competition Results
+                    </div>
+                    <p style="margin-top: 1rem; color: #5d6d7e; font-style: italic;">
+                        Quantitative analysis of academic progression and research productivity over time, 
+                        demonstrating consistent excellence and accelerating scientific contribution.
+                    </p>
+                </div>
+
+                <div style="background: #e8f6f3; padding: 2rem; border-radius: 15px; border-left: 5px solid #27ae60;">
+                    <h4>🌍 International Collaboration</h4>
+                    <p>Open to research collaborations and academic exchanges. Experienced in cross-cultural scientific communication and international project coordination. Available for university interviews, research discussions, and academic mentorship opportunities.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Section Navigation
+        function showSection(sectionName) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(sectionName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Physics Demo Interactions
+        function triggerWave() {
+            const demo = document.getElementById('physics-demo');
+            demo.style.background = 'linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1))';
+            demo.style.animation = 'wave-pulse 2s ease-in-out';
+            
+            setTimeout(() => {
+                demo.style.background = 'white';
+                demo.style.animation = '';
+            }, 2000);
+        }
+
+        function toggleField() {
+            const demo = document.getElementById('physics-demo');
+            const isActive = demo.classList.contains('field-active');
+            
+            if (isActive) {
+                demo.classList.remove('field-active');
+                demo.innerHTML = '<div style="color: #7f8c8d;">⚡ Electromagnetic Field Visualization ⚡</div>';
+            } else {
+                demo.classList.add('field-active');
+                demo.innerHTML = '<div style="color: #e74c3c; animation: pulse 1s infinite;">🌊 Field Lines Active - Wave Propagation Detected 🌊</div>';
+            }
+        }
+
+        // Create animated background particles
+        function createParticles() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                bgAnimation.appendChild(particle);
+            }
+        }
+
+        // Parallax effect for section headers
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const headers = document.querySelectorAll('.section h2');
+            headers.forEach(header => {
+                const speed = 0.5;
+                header.style.transform = `translateX(${scrolled * speed * 0.1}px)`;
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add wave pulse animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes wave-pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(52, 152, 219, 0.5); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Intersection Observer for card animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.project-card, .award-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Hover effects for technical badges
+            document.querySelectorAll('.tech-badge').forEach(badge => {
+                badge.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.15) rotate(5deg)';
+                    this.style.boxShadow = '0 5px 15px rgba(52, 152, 219, 0.3)';
+                });
+                
+                badge.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Dynamic statistics counter
+            function animateStats() {
+                document.querySelectorAll('.stat-number').forEach(stat => {
+                    const finalValue = parseInt(stat.textContent);
+                    let currentValue = 0;
+                    const increment = finalValue / 50;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= finalValue) {
+                            stat.textContent = finalValue + (stat.textContent.includes('+') ? '+' : '');
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(currentValue);
+                        }
+                    }, 40);
+                });
+            }
+
+            // Trigger stats animation when home section is visible
+            const homeSection = document.getElementById('home');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            });
+            statsObserver.observe(homeSection);
+        });
+
+        // Advanced hover effects for project cards
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderColor = '#3498db';
+                this.style.boxShadow = '0 25px 80px rgba(52, 152, 219, 0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.borderColor = '#ecf0f1';
+                this.style.boxShadow = '0 20px 60px rgba(0,0,0,0.08)';
+            });
+        });
+    </script>
+</body>
+</html>
